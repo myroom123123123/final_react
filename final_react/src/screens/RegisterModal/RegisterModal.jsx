@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import Eye from "../../assets/img/eye.png";
 import "./RegisterModal.css";
+import Eye from "../../assets/img/eye.png";
 
-const RegisterModel = ({ setOpenRegister, onCloseRegist }) => {
+const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     if (!setOpenRegister) return null;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (onRegister) {
+            onRegister();
+        }
+    };
 
     return (
         <div className="overlay" onClick={onCloseRegist}>
@@ -61,7 +68,7 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist }) => {
                     <a className="forgot" href="#">Забули пароль?</a>
                 </div>
 
-                <button className="sign-btn">Зареєструватися</button>
+                <button className="sign-btn" onClick={handleSubmit}>Зареєструватися</button>
 
                 <p className="bottom-text">
                     Вже є обліковий запис? <a href="#">Увійти</a>

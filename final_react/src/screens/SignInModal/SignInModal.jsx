@@ -1,11 +1,50 @@
 import React, { useState } from "react";
-import Eye from "../../assets/img/eye.png";
 import "./SignInModal.css";
+import Eye from "../../assets/img/eye.png";
 
-const SignInModal = ({ isOpen, onClose }) => {
+const SignInModal = ({ isOpen, onClose, onLogin }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({});
 
     if (!isOpen) return null;
+
+    const handleSubmit = () => {
+        const newErrors = {};
+
+        // Валідація email
+        if (!email.trim()) {
+            newErrors.email = "Введіть email";
+        }
+
+        // Валідація пароля
+        if (!password) {
+            newErrors.password = "Введіть пароль";
+        }
+
+        setErrors(newErrors);
+
+        // Якщо є помилки валідації - не перевіряємо далі
+        if (Object.keys(newErrors).length > 0) {
+            return;
+        }
+
+        // Перевірка чи існує користувач
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (!user) {
+            setErrors({ email: "Невірний email або пароль" });
+            return;
+        }
+
+        // Успішний вхід
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        if (onLogin) {
+            onLogin(user);
+        }
+    };
 
     return (
         <div className="overlay" onClick={onClose}>
@@ -19,13 +58,24 @@ const SignInModal = ({ isOpen, onClose }) => {
                 </p>
 
                 <label className="label">Email</label>
-                <input type="email" placeholder="Ваша робоча електронна пошта" />
+                {errors.email && <p className="error-text">{errors.email}</p>}
+                <input 
+                    type="email" 
+                    placeholder="Ваша робоча електронна пошта"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={errors.email ? "input-error" : ""}
+                />
 
                 <label className="label">Пароль</label>
+                {errors.password && <p className="error-text">{errors.password}</p>}
                 <div className="password-field">
                     <input 
                         type={showPassword ? "text" : "password"} 
-                        placeholder="••••••••••••" 
+                        placeholder="••••••••••••"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={errors.password ? "input-error" : ""}
                     />
                     <span 
                         className="eye" 
@@ -43,7 +93,7 @@ const SignInModal = ({ isOpen, onClose }) => {
                     <a className="forgot" href="#">Забули пароль?</a>
                 </div>
 
-                <button className="sign-btn">Увійти</button>
+                <button className="sign-btn" onClick={handleSubmit}>Увійти</button>
 
                 <p className="bottom-text">
                     Немає облікового запису? <a href="#">Зареєструватися</a>

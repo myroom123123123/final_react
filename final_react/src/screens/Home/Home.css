@@ -1,0 +1,339 @@
+.home {
+    width: 100%;
+    background: white;
+}
+.hero {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 53px 15px;
+    background: white;
+    max-width: 1490px;
+    margin: 0 auto;
+}
+
+.hero-content {
+    text-align: center;
+    color: white;
+    background: url('../../assets/img/HolidayTime.png');
+    background-size: cover;
+    background-position: center;
+    padding: 53px 217px;
+    width: 1400px;
+    max-width: 1400px;
+    height: 369px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 75px;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+}
+
+.hero-subtitle {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 50px;
+    font-weight: 400;
+    margin: 0;
+}
+.carousel-section {
+    max-width: 1490px;
+    margin: 60px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel {
+    position: relative;
+    display: block;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 100px;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn.prev {
+    left: 20px;
+}
+
+.carousel-btn.next {
+    right: 20px;
+}
+
+.carousel-btn:hover {
+    transform: translateY(-50%) scale(1.15);
+}
+
+.carousel-content {
+    position: relative;
+    border-radius: 0;
+    overflow: hidden;
+    width: 1490px;
+    max-width: 1490px;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 604px;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 1164px;
+    height: 167px;
+    padding: 20px 30px;
+    padding-right: 60px;
+    background: rgba(255, 255, 255, 0.92);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.view-btn {
+    position: absolute;
+    top: -30px;
+    right: 0px;
+    background-color: rgba(32, 40, 70, 1);
+    color: white;
+    border: none;
+    width: 245px;
+    height: 68px;
+    border-radius: 100px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 5;
+}
+
+.view-btn:hover {
+    opacity: 0.8;
+}
+
+.carousel-description {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.5;
+    color: rgba(32, 40, 70, 1);
+    margin: 0;
+    text-align: left;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: -550px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 15;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: rgba(32, 40, 70, 1);
+}
+.about-section {
+    max-width: 1490px;
+    margin: 60px auto;  
+    background-color: #C1C1C3;
+    width: 1490px;
+    height: 412px;
+}
+
+.about-content {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.about-image {
+    width: 698px;
+    height: 349px;
+    padding: 31.5px 18px 31.5px 70px;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+    object-fit: cover;
+}
+
+.about-text {
+    flex: 1;
+    padding: 80px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EAEAEB;
+    margin: 31.5px 70px 31.5px 0;
+}
+
+.about-text p {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: rgba(32, 40, 70, 1);
+    margin: 0;
+    text-align: center;
+}
+.contact-section {
+    max-width: 518px;
+    width: 518px;
+    margin: 60px auto 80px;
+    padding: 40px 0 0 0;
+    text-align: center;
+    background: #F2EEEE;
+    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.contact-title {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: #414141;
+    margin-bottom: 30px;
+    margin-top: -21px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-group label {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 30px;
+    color: #414141;
+    margin-bottom: 16px;
+    align-self: flex-start;
+}
+
+.form-input {
+    padding: 10px 15px;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 20px;
+    background: white;
+    width: 408px;
+    height: 32px;
+}
+
+.form-input::placeholder {
+    color: #90A4AE;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: rgba(32, 40, 70, 1);
+}
+
+.submit-btn {
+    background-color: rgba(32, 40, 70, 1);
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 2px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    margin-top: 10px;
+    width: 518px;
+    height: 104px;
+}
+
+.submit-btn:hover {
+    opacity: 0.8;
+}
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(32, 40, 70, 0.8);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.scroll-top-btn:hover {
+    background-color: rgba(32, 40, 70, 1);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 1024px) {
+    .carousel-content {
+        flex-direction: column;
+    }
+
+    .carousel-image,
+    .carousel-text {
+        width: 100%;
+    }
+
+    .about-content {
+        flex-direction: column;
+    }
+}

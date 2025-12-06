@@ -1,0 +1,23 @@
+.footer {
+    background-color: rgba(32, 40, 70, 1);
+    width: 100%;
+    padding: 20px 0;
+}
+
+.footer-container {
+    max-width: 1490px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-text {
+    color: white;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    font-style: italic;
+    margin: 0;
+    text-align: left;
+    line-height: auto;
+    letter-spacing: 0%;
+}

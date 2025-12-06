@@ -168,6 +168,17 @@ input {
     color: rgba(32, 40, 70, 1);
 }
 
+.error-text {
+    color: #ff3d3d;
+    font-size: 12px;
+    margin: 4px 0 0 0;
+    font-family: 'Lato', sans-serif;
+}
+
+.input-error {
+    border-color: #ff3d3d !important;
+}
+
 .overlay {
     animation: fadeIn 0.3s ease forwards;
 }
