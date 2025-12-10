@@ -115,23 +115,22 @@
     font-size: 24px;
 }
 
-.language-selector {
+.favorites-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 48px;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
     display: flex;
     align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    justify-content: center;
 }
 
-.globe-icon {
-    width: 24px;
-    height: 24px;
-}
-
-.language {
-    color: white;
-    font-family: 'PT Sans', sans-serif;
-    font-size: 28px;
-    font-weight: 400;
+.favorites-btn:hover {
+    transform: scale(1.2);
+    color: #ff6b6b;
 }
 
 @media (max-width: 1024px) {

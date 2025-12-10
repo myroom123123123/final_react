@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import "./SignInModal.css";
 import Eye from "../../assets/img/eye.png";
 
-const SignInModal = ({ isOpen, onClose, onLogin }) => {
+const SignInModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
 
     if (!isOpen) return null;
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
+    };
 
     const handleSubmit = () => {
         const newErrors = {};
@@ -64,6 +70,7 @@ const SignInModal = ({ isOpen, onClose, onLogin }) => {
                     placeholder="Ваша робоча електронна пошта"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onKeyPress={handleKeyPress}
                     className={errors.email ? "input-error" : ""}
                 />
 
@@ -75,6 +82,7 @@ const SignInModal = ({ isOpen, onClose, onLogin }) => {
                         placeholder="••••••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyPress={handleKeyPress}
                         className={errors.password ? "input-error" : ""}
                     />
                     <span 
@@ -96,15 +104,15 @@ const SignInModal = ({ isOpen, onClose, onLogin }) => {
                 <button className="sign-btn" onClick={handleSubmit}>Увійти</button>
 
                 <p className="bottom-text">
-                    Немає облікового запису? <a href="#">Зареєструватися</a>
+                    Немає облікового запису? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchToRegister && onSwitchToRegister(); }}>Зареєструватися</a>
                 </p>
 
                 <div className="social-text">Або увійдіть за допомогою</div>
                 <div className="social-icons">
-                    <a href="#"><i className="fab fa-facebook-f"></i></a> 
-                    <a href="#"><i className="fab fa-google"></i></a>
-                    <a href="#"><i className="fab fa-twitter"></i></a>
-                    <a href="#"><i className="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook-f"></i></a> 
+                    <a href="https://accounts.google.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-google"></i></a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
         </div>

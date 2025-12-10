@@ -3,22 +3,39 @@ import SignRegister from "../screens/RegisterModal/RegisterModal";
 import React, { useState } from "react";
 import "./Header.css";
 import logo from "../assets/img/logo.png";
-import globe from "../assets/img/globe.png";
 import line from "../assets/img/line.png";
 
-const Header = () => {
+const Header = ({ setCurrentPage, isLoggedIn, onLogin, onRegister }) => {
     const [open, setOpen] = useState(false);
     const [openRegister, setOpenRegister] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const handleLogin = () => {
-        setIsLoggedIn(true);
+    const handleLogin = (user) => {
         setOpen(false);
+        if (onLogin) {
+            onLogin(user);
+        }
     };
 
-    const handleRegister = () => {
-        setIsLoggedIn(true);
+    const handleRegister = (user) => {
         setOpenRegister(false);
+        if (onRegister) {
+            onRegister(user);
+        }
+    };
+
+    const switchToRegister = () => {
+        setOpen(false);
+        setOpenRegister(true);
+    };
+
+    const switchToSignIn = () => {
+        setOpenRegister(false);
+        setOpen(true);
+    };
+
+    const handleNavigation = (page) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     return (
@@ -30,15 +47,15 @@ const Header = () => {
                     </div>
                     
                     <nav className="nav">
-                        <a href="#" className="nav-link">ГОЛОВНА</a>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('home'); }}>ГОЛОВНА</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link">ПРО НАС</a>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('about'); }}>ПРО НАС</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link">ЗАБРОНЮВАТИ</a>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('booking'); }}>ЗАБРОНЮВАТИ</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link">КОНТАКТИ</a>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('contact'); }}>КОНТАКТИ</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link nav-link-multi">ОСОБИСТИЙ<br/>КАБІНЕТ</a>
+                        <a href="#" className="nav-link nav-link-multi" onClick={(e) => { e.preventDefault(); handleNavigation('profile'); }}>ОСОБИСТИЙ<br/>КАБІНЕТ</a>
                     </nav>
 
                     <div className="auth-section">
@@ -60,10 +77,13 @@ const Header = () => {
                                 </button>
                             </div>
                         ) : (
-                            <div className="language-selector">
-                                <img src={globe} alt="Language" className="globe-icon" />
-                                <span className="language">UA</span>
-                            </div>
+                            <button 
+                                className="favorites-btn"
+                                onClick={() => handleNavigation('favorites')}
+                                title="Обране"
+                            >
+                                ♡
+                            </button>
                         )}
                     </div>
                 </div>
@@ -73,11 +93,13 @@ const Header = () => {
                 setOpenRegister={openRegister} 
                 onCloseRegist={() => setOpenRegister(false)}
                 onRegister={handleRegister}
+                onSwitchToSignIn={switchToSignIn}
             />
             <SignInModal 
                 isOpen={open} 
                 onClose={() => setOpen(false)}
                 onLogin={handleLogin}
+                onSwitchToRegister={switchToRegister}
             />
         </>
     );

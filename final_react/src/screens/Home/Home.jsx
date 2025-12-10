@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
 import Bakota from '../../assets/img/Bakota.jpg';
-import Kyiv from '../../assets/img/Kyiv.png';
+import Kyiv from '../../assets/img/Kyiv.jpg';
 import Odessa from '../../assets/img/Odessa.jpg';
 import Karpaty from '../../assets/img/Karpaty.png';
 import Couple from '../../assets/img/Couple.png';
@@ -9,6 +9,9 @@ import Couple from '../../assets/img/Couple.png';
 function Home() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [formData, setFormData] = useState({ name: '', phone: '' });
+    const [errors, setErrors] = useState({ name: '', phone: '' });
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -20,6 +23,38 @@ function Home() {
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        if (errors[name]) {
+            setErrors({ ...errors, [name]: '' });
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newErrors = {};
+
+        if (!formData.name.trim()) {
+            newErrors.name = 'Будь ласка, введіть ім\'я';
+        }
+
+        if (!formData.phone.trim()) {
+            newErrors.phone = 'Будь ласка, введіть номер телефону';
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        setShowSuccessMessage(true);
+        setFormData({ name: '', phone: '' });
+        setTimeout(() => {
+            setShowSuccessMessage(false);
+        }, 5000);
     };
 
     const slides = [
@@ -117,18 +152,46 @@ function Home() {
                 </div>
             </section>
             <section className="contact-section">
-                <h2 className="contact-title">Зворотній зв'язок</h2>
-                <form className="contact-form">
-                    <div className="form-group">
-                        <label>Ім'я</label>
-                        <input type="text" className="form-input" placeholder="Введіть ім’я"/>
+                {!showSuccessMessage ? (
+                    <>
+                        <h2 className="contact-title">Зворотній зв'язок</h2>
+                        <form className="contact-form" onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label>Ім'я</label>
+                                {errors.name && <span className="error-text">{errors.name}</span>}
+                                <input 
+                                    type="text" 
+                                    name="name"
+                                    className={`form-input ${errors.name ? 'input-error' : ''}`}
+                                    placeholder="Введіть ім'я"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Номер телефону</label>
+                                {errors.phone && <span className="error-text">{errors.phone}</span>}
+                                <input 
+                                    type="tel" 
+                                    name="phone"
+                                    className={`form-input ${errors.phone ? 'input-error' : ''}`}
+                                    placeholder="Введіть номер телефону"
+                                    value={formData.phone}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <button type="submit" className="submit-btn">Запросити дзвінок</button>
+                        </form>
+                    </>
+                ) : (
+                    <div className="success-message-container">
+                        <h2 className="success-title">Дякуємо за звернення!</h2>
+                        <p className="success-text">
+                            Менеджер з вами зв'яжеться найближчим часом
+                        </p>
+                        <div className="success-icon">✓</div>
                     </div>
-                    <div className="form-group">
-                        <label>Номер телефону</label>
-                        <input type="tel" className="form-input" placeholder="Введіть номер телефону" />
-                    </div>
-                    <button type="submit" className="submit-btn">Запросити дзвінок</button>
-                </form>
+                )}
             </section>
             {showScrollTop && (
                 <button className="scroll-top-btn" onClick={scrollToTop}>

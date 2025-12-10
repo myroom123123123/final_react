@@ -299,6 +299,78 @@
 .submit-btn:hover {
     opacity: 0.8;
 }
+
+.error-text {
+    color: #ff3d3d;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-family: 'PT Sans', sans-serif;
+    align-self: flex-start;
+}
+
+.input-error {
+    border-color: #ff3d3d !important;
+    border-width: 2px !important;
+}
+
+.success-message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    animation: fadeIn 0.5s ease;
+}
+
+.success-title {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: #414141;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.success-text {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: #414141;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(32, 40, 70, 1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    color: white;
+    animation: scaleUp 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
 .scroll-top-btn {
     position: fixed;
     bottom: 30px;
