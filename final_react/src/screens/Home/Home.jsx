@@ -6,7 +6,18 @@ import Odessa from '../../assets/img/Odessa.jpg';
 import Karpaty from '../../assets/img/Karpaty.png';
 import Couple from '../../assets/img/Couple.png';
 
-function Home() {
+function Home({ setCurrentPage, setSelectedProperty }) {
+        const handleInputChange = (e) => {
+            const { name, value } = e.target;
+            setFormData((prev) => ({ ...prev, [name]: value }));
+            if (errors[name]) {
+                setErrors((prev) => ({ ...prev, [name]: '' }));
+            }
+        };
+
+        const scrollToTop = () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
     const [currentSlide, setCurrentSlide] = useState(0);
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [formData, setFormData] = useState({ name: '', phone: '' });
@@ -21,40 +32,45 @@ function Home() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-        if (errors[name]) {
-            setErrors({ ...errors, [name]: '' });
-        }
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {};
 
         if (!formData.name.trim()) {
-            newErrors.name = 'Будь ласка, введіть ім\'я';
+            newErrors.name = "Будь ласка, введіть ім'я";
         }
-
         if (!formData.phone.trim()) {
             newErrors.phone = 'Будь ласка, введіть номер телефону';
         }
-
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
 
-        setShowSuccessMessage(true);
-        setFormData({ name: '', phone: '' });
-        setTimeout(() => {
-            setShowSuccessMessage(false);
-        }, 5000);
+        try {
+            const response = await fetch('https://formspree.io/f/xdkqwrwk', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    phone: formData.phone
+                })
+            });
+            if (response.ok) {
+                setShowSuccessMessage(true);
+                setFormData({ name: '', phone: '' });
+                setTimeout(() => {
+                    setShowSuccessMessage(false);
+                }, 5000);
+            } else {
+                alert('Сталася помилка при надсиланні. Спробуйте ще раз.');
+            }
+        } catch (error) {
+            alert('Сталася помилка при надсиланні. Спробуйте ще раз.');
+        }
     };
 
     const slides = [
@@ -62,25 +78,37 @@ function Home() {
             id: 1,
             image: Bakota,
             title: 'Бакота',
-            description: 'У Хмельницькій області розташований загублений край - Бакота. Мальовничий каньйон з давньою історією захоплює своїми просторами та незвичною атмосферою. Бджільництво, свіжий мед із польових трав, дотик до природи.'
+            location: 'Бакота',
+            name: 'Бронювання будиночка в Бакоті',
+            description: 'У Хмельницькій області розташований загублений край - Бакота. Мальовничий каньйон з давньою історією захоплює своїми просторами та незвичною атмосферою. Бджільництво, свіжий мед із польових трав, дотик до природи.',
+            detailText: 'У Хмельницькій області розташований загублений край - Бакота. Мальовничий каньйон з давньою історією захоплює своїми просторами та незвичною атмосферою.\n\nБджільництво, свіжий мед із польових трав, дотик до природи. Тут ви знайдете справжній спокій та єднання з українською природою.'
         },
         {
             id: 2,
             image: Kyiv,
             title: 'Київ',
-            description: 'Неподалік центра Києва розташувалось автентичне українське село на території однойменного села Пирогово. Дерев’яні млини, запашний хліб, приготовлений своїми руками, українські пісні та багато іншого чекає на вас уже зараз.'
+            location: 'Київ',
+            name: 'Бронювання будиночка в Києві',
+            description: 'Неподалік центра Києва розташувалось автентичне українське село на території однойменного села Пирогово. Дерев\'яні млини, запашний хліб, приготовлений своїми руками, українські пісні та багато іншого чекає на вас уже зараз.',
+            detailText: 'Неподалік центра Києва розташувалось автентичне українське село на території однойменного села Пирогово.\n\nДерев\'яні млини, запашний хліб, приготовлений своїми руками, українські пісні та багато іншого чекає на вас уже зараз.'
         },
         {
             id: 3,
             image: Odessa,
             title: 'Одеса',
-            description: 'В Одеській області знаходиться мальовниче містечко Вилкове. Його ще називають «українською Венецією». Вилкове - це містечко на воді, весь в каналах. Розташоване в місці, де зустрічаються річка Дунай і Чорне море. Люди пересуваються переважно човнами. Нетипове українське село не залишить Вас без вражень.'
+            location: 'Одеська область',
+            name: 'Бронювання будиночка в Одесі',
+            description: 'В Одеській області знаходиться мальовниче містечко Вилкове. Його ще називають «українською Венецією». Вилкове - це містечко на воді, весь в каналах. Розташоване в місці, де зустрічаються річка Дунай і Чорне море. Люди пересуваються переважно човнами. Нетипове українське село не залишить Вас без вражень.',
+            detailText: 'В Одеській області знаходиться мальовниче містечко Вилкове. Його ще називають «українською Венецією».\n\nВилкове - це містечко на воді, весь в каналах. Розташоване в місці, де зустрічаються річка Дунай і Чорне море.'
         },
         {
             id: 4,
             image: Karpaty,
             title: 'Карпати',
-            description: 'Полонини Карпат, у селі Орів посеред гір розташувався затишний куточок для незабутніх вражень. Справжні українські гори, власноручне сироваріння на полонині, водоспади та вікові дерева чекають на Вас.'
+            location: 'Карпати',
+            name: 'Бронювання будиночка в Карпатах',
+            description: 'Полонини Карпат, у селі Орів посеред гір розташувався затишний куточок для незабутніх вражень. Справжні українські гори, власноручне сироваріння на полонині, водоспади та вікові дерева чекають на Вас.',
+            detailText: 'Полонини Карпат, у селі Орів посеред гір розташувався затишний куточок для незабутніх вражень.\n\nСправжні українські гори, власноручне сироваріння на полонині, водоспади та вікові дерева чекають на Вас.'
         }
     ];
 
@@ -117,7 +145,15 @@ function Home() {
                             className="carousel-image"
                         />
                         <div className="carousel-text">
-                            <button className="view-btn">Переглянути →</button>
+                            <button 
+                                className="view-btn" 
+                                onClick={() => {
+                                    setSelectedProperty(slides[currentSlide]);
+                                    setCurrentPage('propertyDetail');
+                                }}
+                            >
+                                Переглянути →
+                            </button>
                             <p className="carousel-description">{slides[currentSlide].description}</p>
                         </div>
                     </div>

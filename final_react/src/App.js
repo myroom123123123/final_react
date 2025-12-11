@@ -54,7 +54,7 @@ function App() {
         onLogin={handleLogin}
         onRegister={handleRegister}
       />
-      {currentPage === 'home' && <Home />}
+      {currentPage === 'home' && <Home setCurrentPage={setCurrentPage} setSelectedProperty={setSelectedProperty} />}
       {currentPage === 'about' && <About />}
       {currentPage === 'favorites' && <Favorites favoriteProperties={favoriteProperties} removeFromFavorites={removeFromFavorites} setCurrentPage={setCurrentPage} />}
       {currentPage === 'booking' && <Booking favorites={favorites} addToFavorites={addToFavorites} removeFromFavorites={removeFromFavorites} isLoggedIn={isLoggedIn} onOpenRegister={() => setOpenRegisterModal(true)} setCurrentPage={setCurrentPage} setSelectedProperty={setSelectedProperty} />}

@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import "./Header.css";
 import logo from "../assets/img/logo.png";
 import line from "../assets/img/line.png";
+import menuIcon from "../assets/img/menu.svg";
 
 const Header = ({ setCurrentPage, isLoggedIn, onLogin, onRegister }) => {
     const [open, setOpen] = useState(false);
     const [openRegister, setOpenRegister] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const handleLogin = (user) => {
         setOpen(false);
@@ -42,20 +44,22 @@ const Header = ({ setCurrentPage, isLoggedIn, onLogin, onRegister }) => {
         <>
             <header className="header">
                 <div className="header-container">
+                    <button className="burger-menu-btn" onClick={() => setMobileMenuOpen((v) => !v)}>
+                        <img src={menuIcon} alt="menu" />
+                    </button>
                     <div className="logo">
                         <img src={logo} alt="Logo" />
                     </div>
-                    
-                    <nav className="nav">
-                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('home'); }}>ГОЛОВНА</a>
+                    <nav className={`nav${mobileMenuOpen ? ' nav-mobile-open' : ''}`}>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('home'); setMobileMenuOpen(false); }}>ГОЛОВНА</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('about'); }}>ПРО НАС</a>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('about'); setMobileMenuOpen(false); }}>ПРО НАС</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('booking'); }}>ЗАБРОНЮВАТИ</a>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('booking'); setMobileMenuOpen(false); }}>ЗАБРОНЮВАТИ</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('contact'); }}>КОНТАКТИ</a>
+                        <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('contact'); setMobileMenuOpen(false); }}>КОНТАКТИ</a>
                         <img src={line} alt="" className="divider" />
-                        <a href="#" className="nav-link nav-link-multi" onClick={(e) => { e.preventDefault(); handleNavigation('profile'); }}>ОСОБИСТИЙ<br/>КАБІНЕТ</a>
+                        <a href="#" className="nav-link nav-link-multi" onClick={(e) => { e.preventDefault(); handleNavigation('profile'); setMobileMenuOpen(false); }}>ОСОБИСТИЙ<br/>КАБІНЕТ</a>
                     </nav>
 
                     <div className="auth-section">

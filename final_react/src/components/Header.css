@@ -1,3 +1,4 @@
+/* Burger menu styles */
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 
 .header {
@@ -143,12 +144,130 @@
     }
 }
 
-@media (max-width: 768px) {
-    .nav {
-        display: none;
-    }
-    
+@media (max-width: 768px) {  
     .header-container {
         justify-content: space-between;
+    }
+}
+
+.burger-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    margin-right: 8px;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+@media (max-width: 400px) {
+    .header-container {
+        padding: 0;
+    }
+
+    .logo img {
+        display: none;
+    }
+
+    .auth-section {
+        gap: 5px;
+    }
+
+    .divider {
+        display: none;
+    }
+
+    .header {
+        font-size: 16px;
+    }
+    .auth-buttons {
+        gap: 8px;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-left: 4px;
+    }
+
+    .auth-btn {
+        font-size: 15px;
+        white-space: nowrap;
+    }
+    .separator {
+        font-size: 15px;
+        white-space: nowrap;
+        margin-left: 2px;
+        margin-right: 2px;
+        display: inline;
+    }
+
+    .favorites-btn {
+        font-size: 30px;
+    }
+
+    .nav-link {
+        margin: 0 0.5px;
+        font-size: 16px;
+    }
+    .header-container {
+        margin-left: -36px;
+    }
+    .nav-link-multi {
+        margin: 0 0.5px;
+        font-size: 16px;
+        .nav-link {
+            margin: 0 0.1px;
+            font-size: 10px;
+        }
+        .nav-link-multi {
+            margin: 0 0.1px;
+            font-size: 10px;
+        }
+        text-align: center;
+    }
+    .burger-menu-btn {
+        display: block;
+        position: relative;
+        left: 44px;
+        top: 0;
+        z-index: 1100;
+    }
+    .nav {
+        display: none;
+        position: absolute;
+        left: -28px;
+        top: 62px;
+        background: #232846;
+        width: 80vw;
+        min-width: 180px;
+        max-width: 90vw;
+        border-radius: 0 0 16px 0;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        flex-direction: column;
+        align-items: center;
+        padding: 18px 0 18px 0px;
+        z-index: 1099;
+        text-align: center;
+    }
+    .nav.nav-mobile-open {
+        display: flex;
+    }
+    .auth-section {
+        margin-right: 44px;
+    }
+    .header-container {
+        position: relative;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 4px;
+    }
+    .logo {
+        margin-left: 8px;
+    }
+    .auth-section {
+        position: relative;
+        right: 0;
+        margin-left: auto;
+        z-index: 1003;
     }
 }
