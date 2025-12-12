@@ -144,12 +144,6 @@
     }
 }
 
-@media (max-width: 768px) {  
-    .header-container {
-        justify-content: space-between;
-    }
-}
-
 .burger-menu-btn {
     display: none;
     background: none;
@@ -160,8 +154,13 @@
     z-index: 1002;
 }
 
-@media (max-width: 450px) {
+
+@media (max-width: 768px) {  
     .header-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+        .header-container {
         padding: 0;
     }
 
@@ -271,3 +270,11 @@
         z-index: 1003;
     }
 }
+
+
+
+
+
+
+
+

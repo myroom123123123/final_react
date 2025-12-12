@@ -22,7 +22,7 @@
     letter-spacing: 0%;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 768px) {
     .footer {
         padding: 10px 0;
     }

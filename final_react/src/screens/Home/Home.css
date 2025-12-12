@@ -435,7 +435,7 @@ body, .home {
     }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 768px) {
 .contact-section {
     max-width: 90vw;
     width: 90vw;

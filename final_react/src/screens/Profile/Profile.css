@@ -302,9 +302,6 @@
     .info-field label {
         min-width: auto;
     }
-}
-
-@media (max-width: 450px) {
     html, body, .profile-container {
         max-width: 100vw;
         overflow-x: hidden !important;
