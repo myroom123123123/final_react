@@ -303,3 +303,103 @@
         min-width: auto;
     }
 }
+
+@media (max-width: 400px) {
+    html, body, .profile-container {
+        max-width: 100vw;
+        overflow-x: hidden !important;
+    }
+    .profile-header {
+        padding: 24px 0 18px 0;
+        margin-bottom: 18px;
+    }
+    .profile-header h2 {
+        font-size: 1.5rem;
+        padding-left: 30px;
+        text-align: left;
+    }
+    .profile-wrapper {
+        padding: 0 2px 20px;
+        max-width: 100vw;
+        width: 90vw;
+    }
+    .profile-content {
+        padding: 16px 2px;
+        gap: 16px;
+        max-width: 100vw;
+        min-width: 0;
+    }
+    .profile-left {
+        min-width: 0;
+        gap: 10px;
+    }
+    .user-icon, .user-icon-placeholder {
+        width: 90px;
+        height: 90px;
+    }
+    .change-photo-btn, .settings-btn {
+        width: 50%;
+        min-width: 0;
+        height: 36px;
+        font-size: 1rem;
+        border-radius: 18px;
+    }
+    .profile-right {
+        gap: 0;
+    }
+    .info-field {
+        padding: 6px 10px;
+        gap: 4px;
+    }
+    .name,
+    .info-field label,
+    .filled-info {
+        font-size: 1.1rem;
+        min-width: 0;
+    }
+    .info-field input,
+    .info-field select {
+        font-size: 0.95rem;
+        padding: 6px 8px;
+    }
+    .logout-btn, .save-btn {
+        width: 40%;
+        font-size: 1rem;
+        padding: 10px 0;
+        border-radius: 18px;
+        margin: 16px 0 0 0;
+        justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+    }
+    .profile-footer {
+        margin-top: 16px;
+        padding: 0 2px;
+    }
+    .profile-footer p {
+        font-size: 12px;
+    }
+    .profile-not-logged-wrapper {
+        padding: 0 2px 20px;
+    }
+    .not-logged-in {
+        padding: 24px 4px;
+        gap: 12px;
+        max-width: 100vw;
+        min-width: 0;
+    }
+    .not-logged-in h3 {
+        font-size: 1.1rem;
+    }
+    .not-logged-in p {
+        font-size: 0.95rem;
+        max-width: 98vw;
+    }
+    .register-btn {
+        font-size: 1rem;
+        padding: 10px 0;
+        border-radius: 18px;
+        width: 100%;
+        min-width: 0;
+    }
+}

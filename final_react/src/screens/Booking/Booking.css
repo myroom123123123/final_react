@@ -387,3 +387,137 @@
 .modal-register-btn:hover {
   background: rgba(32, 40, 70, 0.85);
 }
+
+@media (max-width: 400px) {
+  .booking-page {
+    max-width: 100vw;
+    width: 100vw;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+  .booking-hero {
+    padding: 18px 0;
+    margin-bottom: 10px;
+  }
+  .booking-hero h1 {
+    font-size: 18px;
+    padding-left: 8px;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  .booking-content {
+    max-width: 100vw;
+    width: 100vw;
+    padding: 0 4vw 24px 4vw;
+    margin: 0;
+  }
+  .custom-dropdown {
+    display: none;
+  }
+  .properties-list {
+    gap: 16px;
+    max-width: 100vw;
+    padding: 0;
+  }
+  .property-card {
+    flex-direction: column;
+    min-height: auto;
+    border-radius: 8px;
+    width: 96vw;
+    max-width: 98vw;
+    margin: 0 0 12px -8px;
+    box-sizing: border-box;
+    height: auto;
+  }
+  .property-image {
+    width: 100vw;
+    height: 32vw;
+    min-height: 80px;
+    max-height: 120px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+  }
+  .property-image img {
+    border-radius: 8px 8px 0 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .property-info {
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .property-info h2 {
+    font-size: 20px;
+    margin-bottom: 4px;
+    margin-left: 0;
+    text-align: left;
+  }
+  .property-info p {
+    font-size: 15px;
+    margin-bottom: 4px;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    margin-left: 0;
+    padding: 4px 0;
+    background: none;
+    text-align: left;
+  }
+  .details-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 16px;
+    position: static;
+    margin-top: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    bottom: auto;
+    right: auto;
+  }
+  .favorite-icon {
+    font-size: 32px;
+    top: 8px;
+    right: 8px;
+    padding: 2px;
+    color: #fff;
+  }
+  .favorite-icon.active {
+    color: #fff;
+  }
+  .scroll-to-top {
+    width: 36px;
+    height: 36px;
+    bottom: 12px;
+    right: 12px;
+    font-size: 18px;
+  }
+  .auth-modal {
+    padding: 16px 4vw;
+    max-width: 98vw;
+    width: 98vw;
+    border-radius: 10px;
+  }
+  .auth-modal h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .auth-modal p {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .modal-register-btn {
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 16px;
+  }
+  .modal-close-btn {
+    font-size: 24px;
+    top: 8px;
+    right: 8px;
+  }
+}

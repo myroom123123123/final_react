@@ -264,3 +264,62 @@ input {
     flex: 2;
     margin-bottom: 0;
 }
+
+@media (max-width: 400px) {
+    .modal {
+        width: 85vw;
+        min-width: 0;
+        padding: 12px 2vw;
+        border-radius: 8px;
+    }
+    h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    .subtitle {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+    .label {
+        font-size: 12px;
+    }
+    input {
+        font-size: 12px;
+        padding: 6px;
+        border-radius: 4px;
+        width: 78vw;
+        min-width: 0;
+        max-width: 90vw;
+    }
+    .password-field .eye, .eye {
+        width: 16px;
+        height: 16px;
+        top: 12px;
+        right: 17px;
+    }
+    .eye-img {
+        width: 16px;
+        height: 16px;
+    }
+    .sign-btn {
+        font-size: 15px;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    .bottom-text, .forgot, .remember, .social-text {
+        font-size: 12px;
+    }
+    .close-btn {
+        font-size: 18px;
+        top: 6px;
+        right: 6px;
+    }
+    .social-icons a {
+        font-size: 16px;
+    }
+        /* Трохи ширші поля для імені та email */
+    input[type="text"], input[type="email"] {
+        width: 80vw;
+        max-width: 90vw
+    }
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Home.css';
 import Bakota from '../../assets/img/Bakota.jpg';
 import Kyiv from '../../assets/img/Kyiv.jpg';
@@ -23,6 +23,36 @@ function Home({ setCurrentPage, setSelectedProperty }) {
     const [formData, setFormData] = useState({ name: '', phone: '' });
     const [errors, setErrors] = useState({ name: '', phone: '' });
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+    // Swipe state
+    const touchStartX = useRef(null);
+    const touchEndX = useRef(null);
+
+    const minSwipeDistance = 50; // px
+
+    const onTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX;
+    };
+
+    const onTouchMove = (e) => {
+        touchEndX.current = e.touches[0].clientX;
+    };
+
+    const onTouchEnd = () => {
+        if (touchStartX.current === null || touchEndX.current === null) return;
+        const distance = touchStartX.current - touchEndX.current;
+        if (Math.abs(distance) > minSwipeDistance) {
+            if (distance > 0) {
+                // swipe left
+                nextSlide();
+            } else {
+                // swipe right
+                prevSlide();
+            }
+        }
+        touchStartX.current = null;
+        touchEndX.current = null;
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -133,7 +163,12 @@ function Home({ setCurrentPage, setSelectedProperty }) {
                 </div>
             </section>
             <section className="carousel-section">
-                <div className="carousel">
+                <div
+                    className="carousel"
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                >
                     <button className="carousel-btn prev" onClick={prevSlide}>
                         &#8249;
                     </button>
@@ -156,21 +191,12 @@ function Home({ setCurrentPage, setSelectedProperty }) {
                             </button>
                             <p className="carousel-description">{slides[currentSlide].description}</p>
                         </div>
+
                     </div>
 
                     <button className="carousel-btn next" onClick={nextSlide}>
                         &#8250;
                     </button>
-                </div>
-
-                <div className="carousel-dots">
-                    {slides.map((_, index) => (
-                        <span
-                            key={index}
-                            className={`dot ${index === currentSlide ? 'active' : ''}`}
-                            onClick={() => goToSlide(index)}
-                        ></span>
-                    ))}
                 </div>
             </section>
             <section className="about-section">

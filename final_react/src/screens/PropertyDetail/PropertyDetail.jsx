@@ -100,7 +100,9 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
                     ← Назад
                 </button>
 
-                <div className="content-layout">
+
+                {/* Desktop layout */}
+                <div className="content-layout desktop-layout">
                     <div className="left-column">
                         <div className="main-image">
                             <img src={images[0]} alt="Головне фото" />
@@ -109,7 +111,6 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
                             <img src={images[1]} alt="Фото 2" />
                         </div>
                     </div>
-
                     <div className="right-column">
                         <div className="property-description">
                             {(property?.detailText || 'Опис недоступний').split('\n\n').map((paragraph, index) => (
@@ -120,6 +121,23 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
                             <img src={images[2]} alt="Фото 3" />
                             <img src={images[3]} alt="Фото 4" />
                         </div>
+                    </div>
+                </div>
+
+                {/* Mobile layout: 2x2 grid, text below */}
+                <div className="mobile-images-grid">
+                    <div className="row">
+                        <img src={images[0]} alt="Фото 1" />
+                        <img src={images[1]} alt="Фото 2" />
+                    </div>
+                    <div className="row">
+                        <img src={images[2]} alt="Фото 3" />
+                        <img src={images[3]} alt="Фото 4" />
+                    </div>
+                    <div className="property-description mobile-description">
+                        {(property?.detailText || 'Опис недоступний').split('\n\n').map((paragraph, index) => (
+                            <p key={index}>{paragraph}</p>
+                        ))}
                     </div>
                 </div>
 
