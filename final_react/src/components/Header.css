@@ -160,7 +160,7 @@
     z-index: 1002;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .header-container {
         padding: 0;
     }

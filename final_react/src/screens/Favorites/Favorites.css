@@ -295,7 +295,7 @@
 }
 
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .favorites-page {
         max-width: 100vw;
         width: 100vw;

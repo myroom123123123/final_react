@@ -652,7 +652,7 @@
     display: none;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
         .back-button {
             font-size: 13px;
             padding: 6px 16px;
@@ -917,7 +917,7 @@
         font-size: 1rem;
         padding: 0 4px;
     }
-/* кінець @media (max-width: 400px) */
+/* кінець @media (max-width: 450px) */
     .desktop-layout {
         display: none !important;
     }

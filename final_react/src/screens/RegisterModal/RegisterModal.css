@@ -265,7 +265,7 @@ input {
     margin-bottom: 0;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .modal {
         width: 85vw;
         min-width: 0;

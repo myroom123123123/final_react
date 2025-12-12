@@ -388,7 +388,7 @@
   background: rgba(32, 40, 70, 0.85);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .booking-page {
     max-width: 100vw;
     width: 100vw;
