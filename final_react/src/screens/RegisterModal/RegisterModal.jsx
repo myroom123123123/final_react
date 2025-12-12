@@ -1,3 +1,7 @@
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { uk } from 'date-fns/locale';
 import React, { useState } from "react";
 import "./RegisterModal.css";
 import Eye from "../../assets/img/eye.png";
@@ -15,6 +19,7 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
         birthDate: '',
         phone: ''
     });
+    const [rememberMe, setRememberMe] = useState(false);
 
     if (!setOpenRegister) return null;
 
@@ -35,9 +40,15 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
         setStep(2);
     };
 
+    const isSecondStepValid = formData.gender && formData.birthDate && formData.phone;
+    const isFirstStepValid = formData.fullName && formData.email && formData.password && formData.confirmPassword;
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+        // Перевірка, чи всі поля заповнені
+        if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword || !formData.gender || !formData.birthDate || !formData.phone) {
+            return;
+        }
         // Зберігаємо користувача
         const users = JSON.parse(localStorage.getItem("users") || "[]");
         const newUser = {
@@ -48,11 +59,13 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
             birthDate: formData.birthDate,
             phone: formData.phone
         };
-        
         users.push(newUser);
         localStorage.setItem("users", JSON.stringify(users));
-        localStorage.setItem("currentUser", JSON.stringify(newUser));
-        
+        if (rememberMe) {
+            localStorage.setItem("currentUser", JSON.stringify(newUser));
+        } else {
+            sessionStorage.setItem("currentUser", JSON.stringify(newUser));
+        }
         if (onRegister) {
             onRegister(newUser);
         }
@@ -126,12 +139,16 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
 
                         <div className="extra">
                             <label className="remember">
-                                <input type="checkbox" /> Залишатися в системі
+                                <input
+                                    type="checkbox"
+                                    checked={rememberMe}
+                                    onChange={e => setRememberMe(e.target.checked)}
+                                /> Залишатися в системі
                             </label>
                             <a className="forgot" href="#">Забули пароль?</a>
                         </div>
 
-                        <button className="sign-btn" onClick={handleFirstStep}>Зареєструватися</button>
+                        <button className="sign-btn" onClick={handleFirstStep} disabled={!isFirstStepValid}>Зареєструватися</button>
 
                         <p className="bottom-text">
                             Вже є обліковий запис? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchToSignIn && onSwitchToSignIn(); }}>Увійти</a>
@@ -177,13 +194,47 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
                         </div>
 
                         <label className="label">Дата народження</label>
-                        <input 
-                            type="date" 
-                            value={formData.birthDate}
-                            onChange={(e) => setFormData({...formData, birthDate: e.target.value})}
-                            onKeyPress={handleKeyPressStep2}
-                        />
-
+                        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={uk}>
+                            <DatePicker
+                                value={formData.birthDate ? new Date(formData.birthDate) : null}
+                                onChange={(date) => {
+                                    setFormData({ ...formData, birthDate: date ? date.toISOString().split('T')[0] : '' });
+                                }}
+                                views={["year", "month", "day"]}
+                                openTo="year"
+                                disableFuture
+                                adapterLocale={uk}
+                                slotProps={{
+                                    textField: {
+                                        variant: 'standard',
+                                        fullWidth: true,
+                                        InputProps: {
+                                            disableUnderline: true,
+                                            style: {
+                                                border: '1px solid #ddd',
+                                                borderRadius: '6px',
+                                                padding: '12px',
+                                                fontSize: '16px',
+                                                background: '#fff',
+                                                height: '40px',
+                                                marginTop: '6px',
+                                                marginBottom: '16px',
+                                                boxSizing: 'border-box',
+                                            },
+                                        },
+                                        inputProps: {
+                                            style: {
+                                                padding: '0',
+                                                height: '24px',
+                                                fontSize: '16px',
+                                            },
+                                                placeholder: 'дд.мм.рррр',
+                                        },
+                                        onKeyPress: handleKeyPressStep2,
+                                    }
+                                }}
+                            />
+                        </LocalizationProvider>
                         <label className="label">Мобільний телефон</label>
                         <input 
                             type="tel" 
@@ -195,7 +246,7 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
 
                         <div className="button-group">
                             <button className="back-btn" onClick={() => setStep(1)}>Назад</button>
-                            <button className="sign-btn" onClick={handleSubmit}>Завершити реєстрацію</button>
+                            <button className="sign-btn" onClick={handleSubmit} disabled={!isSecondStepValid}>Завершити реєстрацію</button>
                         </div>
                     </>
                 )}

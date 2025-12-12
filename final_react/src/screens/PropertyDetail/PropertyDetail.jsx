@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db } from '../../firebase';
+import { collection, addDoc, getDocs, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import "./PropertyDetail.css";
 import Bakota1 from "../../assets/img/Bakota.jpg";
 import Bakota2 from "../../assets/img/Bakota2.png";
@@ -26,7 +28,12 @@ import person from "../../assets/img/person.png";
 import group from "../../assets/img/group.png";
 
 const PropertyDetail = ({ property, setCurrentPage }) => {
-    const currentUserObj = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    let currentUserObj = null;
+    if (localStorage.getItem('currentUser')) {
+        currentUserObj = JSON.parse(localStorage.getItem('currentUser'));
+    } else if (sessionStorage.getItem('currentUser')) {
+        currentUserObj = JSON.parse(sessionStorage.getItem('currentUser'));
+    }
     const isAuthenticated = Boolean(currentUserObj);
     const currentUser = currentUserObj ? currentUserObj.fullName : '';
     const [checkInDate, setCheckInDate] = useState("");
@@ -34,17 +41,25 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
     const [rooms, setRooms] = useState(0);
     const [adults, setAdults] = useState(0);
     const [children, setChildren] = useState(0);
+    const [picker, setPicker] = useState({ open: false, type: null });
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
-    const [reviews, setReviews] = useState(() => {
-        const saved = localStorage.getItem('propertyReviews');
-        let arr = saved ? JSON.parse(saved) : [];
-        if (arr.length > 0) {
-            arr = arr.slice(1);
-            localStorage.setItem('propertyReviews', JSON.stringify(arr));
-        }
-        return arr;
-    });
+    const [reviews, setReviews] = useState([]);
+    // Завантаження відгуків з Firestore
+    useEffect(() => {
+        if (!property?.id) return;
+        const fetchReviews = async () => {
+            const q = query(
+                collection(db, 'reviews'),
+                where('propertyId', '==', property.id),
+                orderBy('date', 'asc')
+            );
+            const querySnapshot = await getDocs(q);
+            const data = querySnapshot.docs.map(doc => ({ ...doc.data(), _id: doc.id }));
+            setReviews(data);
+        };
+        fetchReviews();
+    }, [property?.id]);
     const [newReview, setNewReview] = useState({ name: '', rating: 5, comment: '' });
     const [showReviewForm, setShowReviewForm] = useState(false);
     const propertyImages = {
@@ -71,22 +86,32 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
         setShowModal(true);
     };
 
-    const handleReviewSubmit = (e) => {
+    const handleReviewSubmit = async (e) => {
         e.preventDefault();
         if (newReview.name.trim() && newReview.comment.trim()) {
-            const updatedReviews = [...reviews, { ...newReview, date: new Date().toLocaleDateString('uk-UA') }];
-            setReviews(updatedReviews);
-            localStorage.setItem('propertyReviews', JSON.stringify(updatedReviews));
+            const reviewToSave = {
+                ...newReview,
+                propertyId: property.id,
+                date: new Date().toISOString()
+            };
+            await addDoc(collection(db, 'reviews'), reviewToSave);
             setNewReview({ name: '', rating: 5, comment: '' });
             setShowReviewForm(false);
+            // Оновити список після додавання
+            const q = query(
+                collection(db, 'reviews'),
+                where('propertyId', '==', property.id),
+                orderBy('date', 'asc')
+            );
+            const querySnapshot = await getDocs(q);
+            const data = querySnapshot.docs.map(doc => ({ ...doc.data(), _id: doc.id }));
+            setReviews(data);
         }
     };
 
-    const handleDeleteReview = (index) => {
-        const updatedReviews = reviews.filter((_, i) => i !== index);
-        setReviews(updatedReviews);
-        localStorage.setItem('propertyReviews', JSON.stringify(updatedReviews));
-        
+    const handleDeleteReview = async (reviewId) => {
+        await deleteDoc(doc(db, 'reviews', reviewId));
+        setReviews(reviews.filter(r => r._id !== reviewId));
     };
 
     return (
@@ -170,7 +195,11 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
                                     type="number" 
                                     min="1" 
                                     value={rooms}
-                                    onChange={(e) => setRooms(e.target.value)}
+                                    readOnly
+                                    onClick={() => {
+                                        if (window.innerWidth <= 600) setPicker({ open: true, type: 'rooms' });
+                                    }}
+                                    style={{ cursor: window.innerWidth <= 600 ? 'pointer' : 'auto' }}
                                 />
                             </div>
                             <div className="form-group-small">
@@ -179,7 +208,11 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
                                     type="number" 
                                     min="1" 
                                     value={adults}
-                                    onChange={(e) => setAdults(e.target.value)}
+                                    readOnly
+                                    onClick={() => {
+                                        if (window.innerWidth <= 600) setPicker({ open: true, type: 'adults' });
+                                    }}
+                                    style={{ cursor: window.innerWidth <= 600 ? 'pointer' : 'auto' }}
                                 />
                             </div>
                             <div className="form-group-small">
@@ -188,8 +221,31 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
                                     type="number" 
                                     min="0" 
                                     value={children}
-                                    onChange={(e) => setChildren(e.target.value)}
+                                    readOnly
+                                    onClick={() => {
+                                        if (window.innerWidth <= 600) setPicker({ open: true, type: 'children' });
+                                    }}
+                                    style={{ cursor: window.innerWidth <= 600 ? 'pointer' : 'auto' }}
                                 />
+                                        {/* Модальне вікно для вибору кількості */}
+                                        {picker.open && (
+                                            <div className="mobile-picker-modal" onClick={() => setPicker({ open: false, type: null })}>
+                                                <div className="mobile-picker-content" onClick={e => e.stopPropagation()}>
+                                                    <h4>Оберіть кількість</h4>
+                                                    <div className="mobile-picker-options">
+                                                        {[1,2,3,4].map(num => (
+                                                            <button key={num} onClick={() => {
+                                                                if (picker.type === 'rooms') setRooms(num);
+                                                                if (picker.type === 'adults') setAdults(num);
+                                                                if (picker.type === 'children') setChildren(num);
+                                                                setPicker({ open: false, type: null });
+                                                            }}>{num}</button>
+                                                        ))}
+                                                    </div>
+                                                    <button className="mobile-picker-cancel" onClick={() => setPicker({ open: false, type: null })}>Скасувати</button>
+                                                </div>
+                                            </div>
+                                        )}
                             </div>
                         </div>
                         <button className="check-availability-btn" onClick={handleCheckAvailability}>
@@ -333,7 +389,19 @@ const PropertyDetail = ({ property, setCurrentPage }) => {
                                         )}
                                     </div>
                                     <p className="review-comment">{review.comment}</p>
-                                    <span className="review-date">{review.date}</span>
+                                    <span className="review-date">{
+  review.date
+    ? (() => {
+        const d = new Date(review.date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        const hour = String(d.getHours()).padStart(2, '0');
+        const min = String(d.getMinutes()).padStart(2, '0');
+        return `${day}.${month}.${year} ${hour}:${min}`;
+      })()
+    : ""
+}</span>
                                 </div>
                             ))
                         )}

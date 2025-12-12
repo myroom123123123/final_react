@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -11,6 +11,7 @@ import Contact from './screens/Contact/Contact'
 import PropertyDetail from './screens/PropertyDetail/PropertyDetail'
 import RegisterModal from './screens/RegisterModal/RegisterModal'
 
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [favorites, setFavorites] = useState({});
@@ -20,6 +21,19 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
 
+  useEffect(() => {
+    // Перевіряємо localStorage (залишатись в системі) і sessionStorage (на одну сесію)
+    let user = null;
+    if (localStorage.getItem('currentUser')) {
+      user = JSON.parse(localStorage.getItem('currentUser'));
+    } else if (sessionStorage.getItem('currentUser')) {
+      user = JSON.parse(sessionStorage.getItem('currentUser'));
+    }
+    if (user) {
+      setCurrentUser(user);
+      setIsLoggedIn(true);
+    }
+  }, []);
   const addToFavorites = (property) => {
     setFavorites(prev => ({ ...prev, [property.id]: true }));
     setFavoriteProperties(prev => {

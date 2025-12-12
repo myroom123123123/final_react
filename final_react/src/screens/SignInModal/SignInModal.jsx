@@ -7,6 +7,7 @@ const SignInModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
+    const [rememberMe, setRememberMe] = useState(false);
 
     if (!isOpen) return null;
 
@@ -45,8 +46,13 @@ const SignInModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
             return;
         }
 
+
         // Успішний вхід
-        localStorage.setItem("currentUser", JSON.stringify(user));
+        if (rememberMe) {
+            localStorage.setItem("currentUser", JSON.stringify(user));
+        } else {
+            sessionStorage.setItem("currentUser", JSON.stringify(user));
+        }
         if (onLogin) {
             onLogin(user);
         }
@@ -96,7 +102,11 @@ const SignInModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
 
                 <div className="extra">
                     <label className="remember">
-                        <input type="checkbox" /> Залишатися в системі
+                        <input
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={e => setRememberMe(e.target.checked)}
+                        /> Залишатися в системі
                     </label>
                     <a className="forgot" href="#">Забули пароль?</a>
                 </div>

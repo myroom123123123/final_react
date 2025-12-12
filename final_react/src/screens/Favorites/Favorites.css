@@ -194,6 +194,17 @@
     color: rgba(32, 40, 70, 1);
 }
 
+.favorites-wrapper {
+  min-height: calc(100vh - 60px - 50px); /* 60px header, 50px footer, підлаштувати під ваші розміри */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.favorites-content {
+  flex: 1;
+}
+
 @media (max-width: 1024px) {
     .favorites-list {
         gap: 12px;
