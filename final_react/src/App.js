@@ -60,6 +60,14 @@ function App() {
     setIsLoggedIn(true);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    sessionStorage.removeItem("currentUser");
+    setCurrentUser(null);
+    setIsLoggedIn(false);
+    setCurrentPage('home');
+  };
+
   return (
     <div className="App">
       <Header 
@@ -72,7 +80,7 @@ function App() {
       {currentPage === 'about' && <About />}
       {currentPage === 'favorites' && <Favorites favoriteProperties={favoriteProperties} removeFromFavorites={removeFromFavorites} setCurrentPage={setCurrentPage} />}
       {currentPage === 'booking' && <Booking favorites={favorites} addToFavorites={addToFavorites} removeFromFavorites={removeFromFavorites} isLoggedIn={isLoggedIn} onOpenRegister={() => setOpenRegisterModal(true)} setCurrentPage={setCurrentPage} setSelectedProperty={setSelectedProperty} />}
-      {currentPage === 'profile' && <Profile isLoggedIn={isLoggedIn} currentUser={currentUser} setCurrentPage={setCurrentPage} onOpenRegister={() => setOpenRegisterModal(true)} />}
+      {currentPage === 'profile' && <Profile isLoggedIn={isLoggedIn} currentUser={currentUser} setCurrentPage={setCurrentPage} onOpenRegister={() => setOpenRegisterModal(true)} onLogout={handleLogout} />}
       {currentPage === 'contact' && <Contact />}
       {currentPage === 'propertyDetail' && <PropertyDetail property={selectedProperty} setCurrentPage={setCurrentPage} />}
       <Footer />

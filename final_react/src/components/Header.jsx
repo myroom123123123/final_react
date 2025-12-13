@@ -1,6 +1,6 @@
 import SignInModal from "./../screens/SignInModal/SignInModal";
 import SignRegister from "../screens/RegisterModal/RegisterModal";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
 import logo from "../assets/img/logo.png";
 import line from "../assets/img/line.png";
@@ -40,6 +40,17 @@ const Header = ({ setCurrentPage, isLoggedIn, onLogin, onRegister }) => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    useEffect(() => {
+        if ((open || openRegister) && window.innerWidth <= 768) {
+            document.body.classList.add('modal-open');
+        } else {
+            document.body.classList.remove('modal-open');
+        }
+        return () => {
+            document.body.classList.remove('modal-open');
+        };
+    }, [open, openRegister]);
+
     return (
         <>
             <header className="header">
@@ -50,6 +61,9 @@ const Header = ({ setCurrentPage, isLoggedIn, onLogin, onRegister }) => {
                     <div className="logo">
                         <img src={logo} alt="Logo" />
                     </div>
+                    {mobileMenuOpen && (
+                        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}></div>
+                    )}
                     <nav className={`nav${mobileMenuOpen ? ' nav-mobile-open' : ''}`}>
                         <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation('home'); setMobileMenuOpen(false); }}>ГОЛОВНА</a>
                         <img src={line} alt="" className="divider" />

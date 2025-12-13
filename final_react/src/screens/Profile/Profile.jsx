@@ -3,7 +3,7 @@ import "./Profile.css";
 import line3 from "../../assets/img/line3.png";
 import userIcon from "../../assets/img/user.png";
 
-const Profile = ({ isLoggedIn, currentUser, setCurrentPage, onOpenRegister }) => {
+const Profile = ({ isLoggedIn, currentUser, setCurrentPage, onOpenRegister, onLogout }) => {
     const [user, setUser] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [avatar, setAvatar] = useState(null);
@@ -75,12 +75,6 @@ const Profile = ({ isLoggedIn, currentUser, setCurrentPage, onOpenRegister }) =>
         
         setUser(updatedUser);
         setIsEditing(false);
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem("currentUser");
-        setCurrentPage('home');
-        window.location.reload();
     };
 
     if (!isLoggedIn || !user) {
@@ -229,7 +223,7 @@ const Profile = ({ isLoggedIn, currentUser, setCurrentPage, onOpenRegister }) =>
                     Зберегти
                 </button>
             ) : (
-                <button className="logout-btn" onClick={handleLogout}>
+                <button className="logout-btn" onClick={onLogout}>
                     Вийти
                 </button>
             )}

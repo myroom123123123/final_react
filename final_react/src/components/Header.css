@@ -249,6 +249,7 @@
     }
     .nav.nav-mobile-open {
         display: flex;
+        z-index: 1010;
     }
     .auth-section {
         margin-right: 44px;
@@ -269,6 +270,22 @@
         margin-left: auto;
         z-index: 1003;
     }
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  body.modal-open .header {
+    display: none !important;
+  }
 }
 
 

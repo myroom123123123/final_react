@@ -49,8 +49,14 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
         if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword || !formData.gender || !formData.birthDate || !formData.phone) {
             return;
         }
-        // Зберігаємо користувача
+        // Перевірка, чи email вже існує
         const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const emailExists = users.some(user => user.email === formData.email);
+        if (emailExists) {
+            alert("Користувач з такою електронною поштою вже існує.");
+            return;
+        }
+        // Зберігаємо користувача
         const newUser = {
             fullName: formData.fullName,
             email: formData.email,
@@ -198,11 +204,17 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
                             <DatePicker
                                 value={formData.birthDate ? new Date(formData.birthDate) : null}
                                 onChange={(date) => {
-                                    setFormData({ ...formData, birthDate: date ? date.toISOString().split('T')[0] : '' });
+                                    if (date instanceof Date && !isNaN(date)) {
+                                        setFormData({ ...formData, birthDate: date.toISOString() });
+                                    } else {
+                                        setFormData({ ...formData, birthDate: '' });
+                                    }
                                 }}
                                 views={["year", "month", "day"]}
                                 openTo="year"
                                 disableFuture
+                                minDate={new Date(1900, 0, 1)}
+                                maxDate={new Date()}
                                 adapterLocale={uk}
                                 slotProps={{
                                     textField: {
@@ -228,7 +240,8 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
                                                 height: '24px',
                                                 fontSize: '16px',
                                             },
-                                                placeholder: 'дд.мм.рррр',
+                                            placeholder: 'дд.мм.рррр',
+                                            maxLength: 8 // для ручного вводу
                                         },
                                         onKeyPress: handleKeyPressStep2,
                                     }
