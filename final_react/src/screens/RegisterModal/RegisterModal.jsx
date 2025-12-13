@@ -232,6 +232,7 @@ const RegisterModel = ({ setOpenRegister, onCloseRegist, onRegister, onSwitchToS
                                                 marginTop: '6px',
                                                 marginBottom: '16px',
                                                 boxSizing: 'border-box',
+                                                width: '340px',
                                             },
                                         },
                                         inputProps: {
